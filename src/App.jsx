@@ -1,18 +1,27 @@
-import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Dashboard } from './components/Dashboard'
-import { LandingPage } from './components/Landing'
+import React, {lazy} from 'react';
+import  LandingPage  from './components/Landing'
+import Navbar from lazy(()=>import ('./components/Navbar'));
+const Dashboard=lazy(()=>import ('./components/Dashboard'))
 
 function App() {
 
+  
+
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path='/dashboard' element={<Dashboard/>}></Route>
-      <Route path='/' element={<LandingPage/>}></Route>
-    </Routes>
-    </BrowserRouter>
+    <div>
+
+      
+      <BrowserRouter> 
+      <Navbar/>
+        <Routes>
+          <Route path='/dashboard' element={<Dashboard />}></Route>
+          <Route path='/' element={<LandingPage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+
   )
 }
 

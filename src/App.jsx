@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import React, {lazy, Suspense} from 'react';
 import  LandingPage  from './components/Landing'
 import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { countAtom } from './store/atoms/count';
+import { countAtom, evenSelector } from './store/atoms/count';
 const  Navbar = lazy(()=>import ('./components/Navbar'));
 const Dashboard=lazy(()=>import ('./components/Dashboard'))
 
@@ -46,6 +46,17 @@ function CountRender(){
   return(
     <div>
       {count}
+      <EvenCountRenderer />
+    </div>
+  )
+}
+
+function EvenCountRenderer(){
+  const isEven = useRecoilValue(evenSelector);
+
+  return (
+    <div>
+      {isEven? "It is even": null}
     </div>
   )
 }

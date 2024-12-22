@@ -1,14 +1,16 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import React, {lazy, Suspense, useContext, useState} from 'react';
+import React, {lazy, Suspense} from 'react';
 import  LandingPage  from './components/Landing'
-import { CountContext } from './context';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
+import { countAtom } from './store/atoms/count';
 const  Navbar = lazy(()=>import ('./components/Navbar'));
 const Dashboard=lazy(()=>import ('./components/Dashboard'))
 
 function App() {
-  const [count,setCount]=useState(0);
+  // const [count,setCount]=useState(0);
   return (
+    <RecoilRoot>
     <div>
       <BrowserRouter> 
       <Navbar/>
@@ -18,26 +20,29 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-      <CountContext.Provider value={{count, setCount}}>
-      <Count count={count} setCount={setCount}/>
-      </CountContext.Provider>
+
+      <Count/>
+
       
       {/* <Buttons setCount={setCount}/> */}
     </div>
+    </RecoilRoot>
   )
 }
 
-function Count({count, setCount}){
+function Count(){
   return(
     <div>
       <CountRender/>
-      <Buttons count={count} setCount={setCount}/>
+      <Buttons/>
     </div>
   )
 }
 
 function CountRender(){
-  const count = useContext(CountContext);
+
+  const count = useRecoilValue(countAtom);
+
   return(
     <div>
       {count}
@@ -45,8 +50,10 @@ function CountRender(){
   )
 }
 
-function Buttons({setCount}){
-  const count = useContext(CountContext);
+function Buttons(){
+
+  const [count,setCount]=useRecoilState(countAtom)
+
 return(
   <div>
     <button onClick={()=>{
